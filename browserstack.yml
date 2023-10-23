@@ -3,8 +3,8 @@
 # =============================
 # Add your BrowserStack userName and accessKey here or set BROWSERSTACK_USERNAME and
 # BROWSERSTACK_ACCESS_KEY as env variables
-userName: jardi_6hfcZA
-accessKey: K1h33FqzX1PFDwBaGHps
+userName: jeffersonardila_ZAUEk0
+accessKey: 7qPbJMnVe3e7z47v8saL
 
 # ======================
 # BrowserStack Reporting
@@ -126,7 +126,7 @@ browserStackLocalOptions:
   # Entire list of arguments available here -> https://www.browserstack.com/docs/automate/selenium/manage-incoming-connections
 
 
-browserstack.geoLocation: CO
+#browserstack.geoLocation: CO
   
 # ===================
 # Debugging features
