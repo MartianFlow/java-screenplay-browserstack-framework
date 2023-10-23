@@ -1,0 +1,39 @@
+name: automated-testing-integration
+on:
+  push:
+    branches:
+      - staging
+      - master
+  workflow_dispatch:
+    inputs:
+      release_id:
+        type: string
+        description: Ingrese el release-id del RLO generado por STEWARD
+        required: false
+
+jobs:
+  integration-e2e-tests:
+    uses: bancodebogota/bbog-dig-do-testing-pipeline/.github/workflows/test_frontend_integration.yml@v5
+    with:
+      command-install: 'mvn clean install -DskipTests'
+      command-execute: 'mvn clean verify'
+      files-to-export: >
+        target/site/serenity/results.csv 
+        target/site/serenity/index.html
+      prefix-team: 'eys-site'
+      use-aws-credentials: false
+      debug: false
+      environment: 'st'
+      release-id-steward: ${{ inputs.release_id }}
+      path-report-file: 'target/serenity-reports/cucumber_report.json'
+      test-plan-key: 'EYS-3194'
+      test-exec-key: 'EYS-4650'
+      repository: 'bbog-eys-site-automated-testing'
+      target-url-zap: 'https://eys-sostenible-web-ui.bbogcreditocomercialtccstg.com/lds98/landing-page'
+      name-file-report: results.csv
+    secrets:
+      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+      CLIENT_ID_XRAY: ${{ secrets.CLIENT_ID_XRAY }}
+      CLIENT_SECRET_XRAY: ${{ secrets.CLIENT_SECRET_XRAY }}
+
+
