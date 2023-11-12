@@ -3,10 +3,11 @@ package com.orangehrm.stepdefinitions;
 import org.openqa.selenium.WebDriver;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
+import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actions.Open;
-import net.thucydides.core.annotations.Managed;
+// import net.thucydides.core.annotations.Managed;
 
 public class CommonSteps {
 

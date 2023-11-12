@@ -3,3 +3,16 @@
 
 Llene aquí la descripción ampliada arquitect@ o desarrollador@!
 
+Comandos a Tener en cuenta para la Ejecucion:
+
+Ejecutar Local - Navegador Chrome
+mvn clean verify -D"webdriver.driver=chrome" -P"sample-local-test"
+
+Ejecutar Local - Navegador Firefox
+mvn clean verify -D"webdriver.driver=firefox" -P"sample-local-test"
+
+Ejecutar Local - Navegador Edge
+mvn clean verify -D"webdriver.driver=edge" -P"sample-local-test"
+
+Ejecutar Remoto Browserstack
+mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://hub.browserstack.com/wd/hub" -P"sample-test"

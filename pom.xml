@@ -3,48 +3,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.browserstack</groupId>
-    <artifactId>serenity-browserstack</artifactId>
+    <groupId>com.orangehrm</groupId>
+    <artifactId>java-screenplay-browserstack-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Serenity BrowserStack Integration</name>
+    <name>java-screenplay-browserstack-framework</name>
+    <url>https://github.com/MartianFlow/java-screenplay-browserstack-framework</url>
 
     <properties>
-
-        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
         <java.source.version>${java.version}</java.source.version>
         <java.target.version>${java.version}</java.target.version>
         <maven.version>3.5.3</maven.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>3.3.4</serenity.version>
-        <serenity.maven.version>3.3.4</serenity.maven.version>
-        <serenity.cucumber.version>7.8.1</serenity.cucumber.version>
-
-        <maven.failsafe-plugin.version>3.0.0-M7</maven.failsafe-plugin.version>
-        <maven.surefire-plugin.version>3.0.0-M7</maven.surefire-plugin.version>
-        <maven.compiler-plugin.version>3.8.1</maven.compiler-plugin.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.failsafe-plugin.version>3.2.2</maven.failsafe-plugin.version>
+        <maven.surefire-plugin.version>3.2.2</maven.surefire-plugin.version>
+        <maven.compiler-plugin.version>3.11.0</maven.compiler-plugin.version>
+        <serenity.version>4.0.21</serenity.version>
+        <serenity.cucumber.version>7.14.0</serenity.cucumber.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>serenity</id>
-            <name>bintray</name>
-            <url>http://dl.bintray.com/serenity/maven</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>serenity</id>
-            <name>bintray-plugins</name>
-            <url>http://dl.bintray.com/serenity/maven</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
@@ -55,60 +34,66 @@
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
             <version>${serenity.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-cucumber</artifactId>
-            <version>${serenity.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay</artifactId>
             <version>${serenity.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay-webdriver</artifactId>
             <version>${serenity.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-ensure</artifactId>
             <version>${serenity.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay-rest</artifactId>
+            <version>${serenity.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
             <version>${serenity.cucumber.version}</version>
-            <scope>test</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>1.8.1</version>
-            <scope>test</scope>
+            <version>1.10.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.1</version>
+            <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
+            <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -117,25 +102,26 @@
             <version>1.2.1</version>
         </dependency>
         <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-screenplay-rest</artifactId>
-            <version>${serenity.version}</version>
-            <scope>test</scope>
-          </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8 -->
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
             <version>2.14.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
+            <version>2.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.3</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -177,9 +163,6 @@
                     <parallel>classes</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <threadCount>0</threadCount>
-                    <argLine>
-                        -javaagent:${com.browserstack:browserstack-java-sdk:jar}
-                    </argLine>
                 </configuration>
                 <executions>
                     <execution>
@@ -197,6 +180,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -222,8 +206,9 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
+
+        <!-- Configuración para el perfil sample-test -->
         <profile>
             <id>sample-test</id>
             <build>
@@ -234,7 +219,7 @@
                         <version>${maven.failsafe-plugin.version}</version>
                         <configuration>
                             <includes>
-                                <include>com/eys/SampleTest.java</include>
+                                <include>com/orangehrm/LocalTestSuite.java</include>
                             </includes>
                             <argLine>
                                 -javaagent:${com.browserstack:browserstack-java-sdk:jar}
@@ -244,6 +229,8 @@
                 </plugins>
             </build>
         </profile>
+    
+        <!-- Configuración para el perfil sample-local-test -->
         <profile>
             <id>sample-local-test</id>
             <build>
@@ -254,11 +241,8 @@
                         <version>${maven.failsafe-plugin.version}</version>
                         <configuration>
                             <includes>
-                                <include>com/eys/LocalTest.java</include>
+                                <include>com/orangehrm/LocalTestSuite.java</include>
                             </includes>
-                            <argLine>
-                                -javaagent:${com.browserstack:browserstack-java-sdk:jar}
-                            </argLine>
                         </configuration>
                     </plugin>
                 </plugins>
