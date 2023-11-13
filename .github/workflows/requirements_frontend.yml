@@ -84,9 +84,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-#    needs:
-#      - report-files-changed
-#    if: fromJSON(needs.report-files-changed.outputs.only-update-variables) == 'false'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
