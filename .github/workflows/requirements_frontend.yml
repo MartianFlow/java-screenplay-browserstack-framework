@@ -142,6 +142,6 @@ jobs:
           project-name: ${{ inputs.project-name }}
           project-key: ${{ inputs.project-key }}
           organization: ${{ inputs.organization }}
-          current-branch: ${{ github.event.pull_request.base.ref }}
+          current-branch: 'main'
           language: ${{ inputs.language }}
           sonar-project-properties-file: ${{ inputs.sonar-project-properties-file }}
