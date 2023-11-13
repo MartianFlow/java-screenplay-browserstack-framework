@@ -1,0 +1,150 @@
+name: Requirements-testing-project
+
+on:
+  workflow_call:
+    inputs:
+      project-name:
+        description: 'Project name which is gonna be the project identifier in SonarCloud'
+        required: true
+        type: string
+      project-key:
+        description: 'Project key which is gonna be the project identifier in SonarCloud'
+        required: true
+        type: string
+      organization:
+        description: 'SonarCloud organization'
+        required: false
+        default: 'testing'
+        type: string
+      language:
+        description: 'The language used to be analyzed in SonarCloud'
+        required: true
+        type: string
+      sonar-project-properties-file:
+        description: 'File with properties to report in SonarCloud'
+        required: true
+        type: string
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+    steps:
+      #Clonacion y checkeo del proyecto
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      #Analisis de informacion sensible
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.head_ref }}
+          head: ${{ github.head_ref }}
+          extra_args: --debug --only-verified
+#      - name: Checking LabActions
+#        uses: actions/checkout@v3
+#        with:
+#          repository: bancodebogota/bdb-dig-do-pipelines-action-securitycheck
+#          ref: 'v1'
+#          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+#          persist-credentials: false
+#          path: ./.github/actions/bdb-dig-do-pipelines-action-securitycheck
+#      - name: Security-Checks
+#        uses: ./.github/actions/bdb-dig-do-pipelines-action-securitycheck
+
+#  report-files-changed:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      only-update-variables: ${{steps.Files-Changed.outputs.only-update-variables}}
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#      - name: Checkout Files Changed Analyze
+#        uses: actions/checkout@v3
+#        with:
+#          repository: bancodebogota/bdb-dig-do-pipelines-action-files-changed-analyze
+#          ref: 'v1'
+#          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+#          persist-credentials: false
+#          path: ./.github/actions/bdb-dig-do-pipelines-action-files-changed-analyze
+#      - name: Files Changed Analyze
+#        id: Files-Changed
+#        uses: ./.github/actions/bdb-dig-do-pipelines-action-files-changed-analyze
+#        with:
+#          path-environments-variables: >
+#            **/*.md
+#            .gitignore
+#            **/*.txt
+#            .env.example
+#            **/*.csv
+
+  lint:
+    runs-on: ubuntu-latest
+    needs:
+      - report-files-changed
+#    if: fromJSON(needs.report-files-changed.outputs.only-update-variables) == 'false'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set version to download rules
+        id: version_rules
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout linter rules
+        uses: actions/checkout@v3
+        with:
+          repository: MartianFlow/java-screenplay-browserstack-framework
+          ref: ${{ fromJson(steps.version_rules.outputs.data).referenced_workflows[0].sha }}
+          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+          persist-credentials: false
+          path: ./templates_linters
+          sparse-checkout: |
+            .github/linters
+      - name: Lint Code Base
+        uses: oxsecurity/megalinter@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IGNORE_GITIGNORED_FILES: true
+          GIT_AUTHORIZATION_BEARER: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+          LINTER_RULES_PATH: './templates_linters/.github/linters'
+          DISABLE_ERRORS_LINTERS: 'ENV_DOTENV_LINTER,JSON_ESLINT_PLUGIN_JSONC,XML_XMLLINT,ACTION_ACTIONLINT,GHERKIN_GHERKIN_LINT'
+          ENABLE_LINTERS: 'JAVA_CHECKSTYLE,JAVASCRIPT_ES,SCALA_SCALAFIX,ENV_DOTENV_LINTER,JSON_ESLINT_PLUGIN_JSONC,XML_XMLLINT,ACTION_ACTIONLINT,GHERKIN_GHERKIN_LINT'
+
+#  sonar:
+#    runs-on: ubuntu-latest
+#    needs:
+#      - report-files-changed
+#    if: fromJSON(needs.report-files-changed.outputs.only-update-variables) == 'false'
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Cache Sonar
+#        uses: actions/cache@v3
+#        id: cache-sonar
+#        with:
+#          path: app
+#          key: source-${{ github.event.repository.name }}-${{ hashFiles('src/**') }}
+#      - name: Checkout SonarCloud
+#        uses: actions/checkout@v3
+#        with:
+#          repository: bancodebogota/bbog-dig-dt-sonarcloud-pipeline
+#          ref: '0.3.4'
+#          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+#          persist-credentials: false
+#          path: ./.github/actions/bbog-dig-dt-sonarcloud-pipeline
+#      - name: SonarCloud Scanner
+#        uses: ./.github/actions/bbog-dig-dt-sonarcloud-pipeline
+#        with:
+#          access-token: ${{ secrets.SONAR_CLOUD_TOKEN }}
+#          project-name: ${{ inputs.project-name }}
+#          project-key: ${{ inputs.project-key }}
+#          organization: ${{ inputs.organization }}
+#          current-branch: ${{ github.event.pull_request.base.ref }}
+#          language: ${{ inputs.language }}
+#          sonar-project-properties-file: ${{ inputs.sonar-project-properties-file }}

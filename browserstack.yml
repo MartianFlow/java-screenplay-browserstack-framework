@@ -3,8 +3,8 @@
 # =============================
 # Add your BrowserStack userName and accessKey here or set BROWSERSTACK_USERNAME and
 # BROWSERSTACK_ACCESS_KEY as env variables
-userName: ${BROWSERSTACK_USER}
-accessKey: ${BROWSERSTACK_KEY}
+userName: jardi_6hfcZA
+accessKey: K1h33FqzX1PFDwBaGHps
 # ======================
 # BrowserStack Reporting
 # ======================
