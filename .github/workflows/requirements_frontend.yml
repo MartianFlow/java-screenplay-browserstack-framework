@@ -114,34 +114,34 @@ jobs:
           DISABLE_ERRORS_LINTERS: 'ENV_DOTENV_LINTER,JSON_ESLINT_PLUGIN_JSONC,XML_XMLLINT,ACTION_ACTIONLINT,GHERKIN_GHERKIN_LINT'
           ENABLE_LINTERS: 'JAVA_CHECKSTYLE,JAVASCRIPT_ES,SCALA_SCALAFIX,ENV_DOTENV_LINTER,JSON_ESLINT_PLUGIN_JSONC,XML_XMLLINT,ACTION_ACTIONLINT,GHERKIN_GHERKIN_LINT'
 
-#  sonar:
-#    runs-on: ubuntu-latest
+  sonar:
+    runs-on: ubuntu-latest
 #    needs:
 #      - report-files-changed
 #    if: fromJSON(needs.report-files-changed.outputs.only-update-variables) == 'false'
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Cache Sonar
-#        uses: actions/cache@v3
-#        id: cache-sonar
-#        with:
-#          path: app
-#          key: source-${{ github.event.repository.name }}-${{ hashFiles('src/**') }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Sonar
+        uses: actions/cache@v3
+        id: cache-sonar
+        with:
+          path: app
+          key: source-${{ github.event.repository.name }}-${{ hashFiles('src/**') }}
 #      - name: Checkout SonarCloud
 #        uses: actions/checkout@v3
 #        with:
-#          repository: bancodebogota/bbog-dig-dt-sonarcloud-pipeline
-#          ref: '0.3.4'
+#          repository: MartianFlow/java-screenplay-browserstack-framework
+#          ref: 'v1.1'
 #          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
 #          persist-credentials: false
-#          path: ./.github/actions/bbog-dig-dt-sonarcloud-pipeline
-#      - name: SonarCloud Scanner
-#        uses: ./.github/actions/bbog-dig-dt-sonarcloud-pipeline
-#        with:
-#          access-token: ${{ secrets.SONAR_CLOUD_TOKEN }}
-#          project-name: ${{ inputs.project-name }}
-#          project-key: ${{ inputs.project-key }}
-#          organization: ${{ inputs.organization }}
-#          current-branch: ${{ github.event.pull_request.base.ref }}
-#          language: ${{ inputs.language }}
-#          sonar-project-properties-file: ${{ inputs.sonar-project-properties-file }}
+#          path: ./.github/actions/sonarcloud-pipeline
+      - name: SonarCloud Scanner
+        uses: ./.github/actions/sonarcloud-pipeline
+        with:
+          access-token: ${{ secrets.SONAR_CLOUD_TOKEN }}
+          project-name: ${{ inputs.project-name }}
+          project-key: ${{ inputs.project-key }}
+          organization: ${{ inputs.organization }}
+          current-branch: ${{ github.event.pull_request.base.ref }}
+          language: ${{ inputs.language }}
+          sonar-project-properties-file: ${{ inputs.sonar-project-properties-file }}

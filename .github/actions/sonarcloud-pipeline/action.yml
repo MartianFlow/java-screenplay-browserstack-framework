@@ -1,0 +1,60 @@
+name: 'Publicar en sonar'
+description: 'Permite a un repositorio publicar en sonar'
+inputs:
+  application-sonar:
+    description: 'Option sonar application for post project SonarQube or SonarCloud'
+    required: false
+    default: 'sonarcloud'
+  access-token:
+    description: 'Authentication token to access SonarCloud and perform analysis'
+    required: true
+  project-name:
+    description: 'Project name which is gonna be the project identifier in SonarCloud'
+    required: true
+  project-key:
+    description: 'Project key which is gonna be the project identifier in SonarCloud'
+    required: true
+  organization:
+    description: 'SonarCloud organization'
+    required: false
+    default: 'bancodebogota'
+  current-branch:
+    description: 'Git branch will be analyzed'
+    required: false
+    default: 'master'
+  language:
+    description: 'The language used to be analyzed'
+    required: true
+    default: ''
+  coverage-file:
+    description: 'Override the default value for coverage file if the default is not the right one'
+    required: false
+    default: ''
+  debug:
+    description: 'Override the default value for coverage file if the default is not the right one'
+    required: false
+    default: 'true'
+  sonar-project-properties-file:
+    description: 'Override the default value for coverage file if the default is not the right on'
+    required: false
+    default: ''
+outputs:
+  time:
+    description: 'The time we greeted you'
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Run SonarCloud analysis'
+      shell: bash
+      run: |
+          bash ${{ github.action_path }}/run-sonar-cloud.sh \
+          --current-branch=${{ inputs.current-branch }} \
+          --application-sonar=${{ inputs.application-sonar }} \
+          --access-token=${{ inputs.access-token }} \
+          --project-name=${{ inputs.project-name }} \
+          --project-key=${{ inputs.project-key }} \
+          --organization=${{ inputs.organization }} \
+          --language=${{ inputs.language }} \
+          --coverage-file=${{ inputs.coverage-file }} \
+          --debug=${{ inputs.debug }} \
+          --sonar-project-properties-file=${{ inputs.sonar-project-properties-file }}
