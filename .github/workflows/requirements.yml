@@ -3,12 +3,12 @@ on:
   pull_request:
     branches:
       - staging
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
   requirements:
-    uses: MartianFlow/java-screenplay-browserstack-framework/.github/workflows/requirements_frontend.yml@v1.1
+    uses: ./.github/workflows/requirements_frontend.yml
     with:
       project-name: ${{ github.event.repository.name }}
       project-key: ${{ github.event.repository.name }}

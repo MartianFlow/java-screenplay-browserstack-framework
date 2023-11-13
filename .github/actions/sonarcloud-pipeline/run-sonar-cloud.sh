@@ -165,7 +165,7 @@ echo 'Start reporting to SonarCloud!'
 
 # rationale: check if has the right permissions
 checkPermissions() {
-    TEST_PROJECT_PERMISSIONS=$(curl -u "$SONAR_TOKEN": "$SONAR_ENDPOINT/api/qualitygates/project_status?projectKey=$SONAR_CLOUD_PROJECT_KEY&branch=master")
+    TEST_PROJECT_PERMISSIONS=$(curl -u "$SONAR_TOKEN": "$SONAR_ENDPOINT/api/qualitygates/project_status?projectKey=$SONAR_CLOUD_PROJECT_KEY&branch=main")
     echo "$TEST_PROJECT_PERMISSIONS"
     if [[ "$TEST_PROJECT_PERMISSIONS" == *"Insufficient privileges"* ]]; then
         echo -e "${COLOR_RED_CODE}[NOK]${NO_COLOR_CODE} Insufficient privileges or project does not exist"
@@ -202,12 +202,12 @@ getAlertStatus() {
     TASK=$(curl -u "$SONAR_TOKEN": "$TASK_URL")
     BRANCH_TYPE=$(echo "$TASK" | jq -r .task.branchType)
     if [ "$BRANCH_TYPE" = "SHORT" ]; then
-        if [ "$CURRENT_BRANCH" != "master" ] && [ "$CURRENT_BRANCH" != "staging" ] && [ "$CURRENT_BRANCH" != "qa" ]
+        if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "staging" ] && [ "$CURRENT_BRANCH" != "qa" ]
         then
             echo "$CURRENT_BRANCH is a short-lived branch, quality validation is not currently supported in this orb, you can see the results at sonarcloud."
             exit 1
         else
-            echo "$CURRENT_BRANCH is a short-lived branch, Long living branches pattern must be set as: (master|staging|qa) by an administrator, you can see the results at sonarcloud."
+            echo "$CURRENT_BRANCH is a short-lived branch, Long living branches pattern must be set as: (main|staging|qa) by an administrator, you can see the results at sonarcloud."
             exit 1
         fi
     fi
