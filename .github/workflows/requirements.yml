@@ -1,5 +1,8 @@
 name: requirements-project
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - staging
