@@ -5,7 +5,7 @@
 
 Este repositorio contiene un marco de trabajo (framework) basado en Java y Screenplay Pattern para pruebas de automatización de navegadores. Se integra con BrowserStack para permitir ejecuciones remotas y ofrece una estructura escalable y modular para escribir y mantener pruebas automatizadas de calidad.
 
-## Comandos a Tener en cuenta para la Ejecucion:
+## Comandos a Tener en cuenta para la Ejecución:
 
 ### Ejecutar Local - Navegador Chrome
 ```
