@@ -14,7 +14,7 @@ on:
       organization:
         description: 'SonarCloud organization'
         required: false
-        default: 'testing'
+        default: 'martianflow'
         type: string
       language:
         description: 'The language used to be analyzed in SonarCloud'
