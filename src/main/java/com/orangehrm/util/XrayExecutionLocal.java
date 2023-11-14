@@ -30,11 +30,7 @@ public class XrayExecutionLocal {
                 + "&testPlanKey=" + testPlanKey
                 + "&testExecKey=" + testExecKey;
         String filePath = "target/serenity-reports/cucumber_report.json";
-        String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnQiOiJiZTYyOWQyNy00NmY5LTNmNDItYWJmNC1kZTJi"
-                + "NTkzNWY4MzQiLCJhY2NvdW50SWQiOiI2MmJkYTFiZTllNmJhMzRjOTkzNzQyMjUiLCJpc1hlYSI6ZmFsc2UsImlhdCI6MTY5NzU2"
-                + "MTE5NywiZXhwIjoxNjk3NjQ3NTk3LCJhdWQiOiJDRTE0RDAwMEFFRTM0OTAzOUNFQzdDMjU2ODI0QTlDRiIsImlzcyI6ImNvbS54"
-                + "cGFuZGl0LnBsdWdpbnMueHJheSIsInN1YiI6IkNFMTREMDAwQUVFMzQ5MDM5Q0VDN0MyNTY4MjRBOUNGIn0._TGodLjjwBRYd2Vr"
-                + "gYwZ405KX-i0psVocKx7iX4P4W4";
+        String bearerToken = "${secrets.BEARER_TOKEN}";
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(apiUrl);
 
