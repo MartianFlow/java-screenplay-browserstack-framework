@@ -107,14 +107,14 @@ on:
         description: 'Path of file .json or .xml with results'
         required: true
         type: string
-      test-plan-key:
-        description: 'Test plan key in project in JIRA'
-        required: true
-        type: string
-      test-exec-key:
-        description: 'Test execution key in project in JIRA'
-        required: true
-        type: string
+#      test-plan-key:
+#        description: 'Test plan key in project in JIRA'
+#        required: true
+#        type: string
+#      test-exec-key:
+#        description: 'Test execution key in project in JIRA'
+#        required: true
+#        type: string
     secrets:
       DIG_READER_GITHUB_ACCESS_TOKEN:
         required: true
