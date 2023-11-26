@@ -135,9 +135,9 @@ on:
 #      CLIENT_SECRET_XRAY:
 #        required: true
 
-permissions:
-  id-token: write
-  contents: read
+#permissions:
+#  id-token: write
+#  contents: read
 
 jobs:
 #  check-standard:
