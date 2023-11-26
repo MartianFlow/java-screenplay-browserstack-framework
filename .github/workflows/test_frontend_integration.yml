@@ -130,10 +130,10 @@ on:
 #        required: false
 #      ARTIFACTORY_READER_API_KEY:
 #        required: false
-      CLIENT_ID_XRAY:
-        required: true
-      CLIENT_SECRET_XRAY:
-        required: true
+#      CLIENT_ID_XRAY:
+#        required: true
+#      CLIENT_SECRET_XRAY:
+#        required: true
 
 permissions:
   id-token: write
