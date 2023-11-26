@@ -173,7 +173,7 @@ jobs:
       - name: Checkout automation project
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.repository }}
+          repository: MartianFlow/${{ inputs.repository }}
           token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
           persist-credentials: false
           path: ./${{ inputs.repository }}
