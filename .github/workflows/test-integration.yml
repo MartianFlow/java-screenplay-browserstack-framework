@@ -15,7 +15,7 @@ jobs:
         target/site/serenity/results.csv 
         target/site/serenity/index.html
       prefix-team: 'automation-test-martianFlow'
-      use-aws-credentials: false
+#      use-aws-credentials: false
       debug: false
       environment: 'main'
 #      release-id-steward: ${{ inputs.release_id }}
