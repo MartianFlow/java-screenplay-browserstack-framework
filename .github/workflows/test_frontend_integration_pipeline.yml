@@ -113,8 +113,8 @@ jobs:
       - name: BrowserStack Action
         uses: 'browserstack/github-actions@master'
         with:
-          username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          username: ${{ secrets.BROWSERSTACK_USER }}
+          access-key: ${{ secrets.BROWSERSTACK_KEY }}
           build-name: BUILD_INFO
           project-name: REPO_NAME
       - name: Setup Java
