@@ -204,6 +204,37 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Reporte simple SERENITY -->
+            <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-single-page-report</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-navigator-report</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <tags>${tags}</tags>
+                    <reports>single-page-html,navigator</reports>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>

@@ -12,8 +12,7 @@ jobs:
       command-install: 'mvn clean install -DskipTests'
       command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://hub.browserstack.com/wd/hub" -P"sample-test"'
       files-to-export: >
-        target/site/serenity/results.csv 
-        target/site/serenity/index.html
+        target/site/serenity/serenity-summary.html
       prefix-team: 'automation-test-martianFlow'
 #      use-aws-credentials: false
       debug: false
