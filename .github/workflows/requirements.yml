@@ -11,7 +11,7 @@ on:
 
 jobs:
   requirements:
-    uses: ./.github/actions/frontend-pipeline/requirements_frontend_pipeline.yml
+    uses: ./.github/workflows/requirements_frontend_pipeline.yml
     with:
       project-name: ${{ github.event.repository.name }}
       project-key: ${{ github.event.repository.name }}
