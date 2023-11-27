@@ -1,0 +1,208 @@
+name: Continuous-testing-frontend-pipeline
+
+on:
+  workflow_call:
+    inputs:
+      debug:
+        description: 'Flag to enable detailed logs in pipeline'
+        required: false
+        default: false
+        type: boolean
+      command-execute:
+        description: 'Command to execute the automation project'
+        required: true
+        type: string
+      command-pre-execute:
+        description: 'Command to aditional settings pre-execution of test'
+        required: false
+        default: ""
+        type: string
+      command-post-execute:
+        description: 'Command to aditional settings post-execution of test'
+        required: false
+        default: ""
+        type: string
+      command-install:
+        description: 'Command to install dependencies of automation project'
+        required: false
+        type: string
+      environment:
+        description: "Environment of Github Actions"
+        required: false
+        default: ""
+        type: string
+      files-to-export:
+        description: 'Relative path of files to export and download as artifact'
+        required: true
+        type: string
+      repository:
+        description: "Name of repo in Github"
+        required: true
+        type: string
+      java-version:
+        description: "Version of Java"
+        required: false
+        default: "11"
+        type: string
+      prefix-team:
+        description: 'Prefix of agile team'
+        required: true
+        type: string
+      name-file-report:
+        description: 'name of CSV or HTML file with results of execution'
+        required: true
+        type: string
+      target-url-zap:
+        description: 'URL of frontend to scan in OWASP ZAP'
+        required: false
+        default: ""
+        type: string
+      path-report-file:
+        description: 'Path of file .json or .xml with results'
+        required: true
+        type: string
+#      test-plan-key:
+#        description: 'Test plan key in project in JIRA'
+#        required: true
+#        type: string
+#      test-exec-key:
+#        description: 'Test execution key in project in JIRA'
+#        required: true
+#        type: string
+    secrets:
+      DIG_READER_GITHUB_ACCESS_TOKEN:
+        required: true
+      BROWSERSTACK_KEY:
+        required: false
+      BROWSERSTACK_USER:
+        required: false
+#      CLIENT_ID_XRAY:
+#        required: true
+#      CLIENT_SECRET_XRAY:
+#        required: true
+
+jobs:
+
+  integration-e2e-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.repository }}
+    environment: ${{ inputs.environment }}
+    outputs:
+      id: ${{ steps.execution.outputs.id }}
+    steps:
+      - name: Checkout automation project
+        uses: actions/checkout@v3
+        with:
+          repository: MartianFlow/${{ inputs.repository }}
+          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+          persist-credentials: false
+          path: ./${{ inputs.repository }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java-version }}
+          architecture: x64
+          distribution: "adopt"
+      - name: Run E2E testing
+        id: execution
+        if: ${{ always() }}
+        env:
+          COMMAND_EXECUTE: ${{ inputs.command-execute }}
+          COMMAND_PRE_EXECUTE: ${{ inputs.command-pre-execute }}
+          DEBUG: ${{ inputs.debug }}
+        run: |
+          if [ "$DEBUG" == "true" ]; then
+            echo "IP: $(curl -s 'https://api.ipify.org?format=json' | jq '.ip' -r)"
+            echo "DATE: $(date +%d/%m/%Y) $(date +%H:%M:%S)"
+            echo "PWD: $(pwd)"
+            echo "LS: $(ls)"
+            echo "EXPORT: $(export)"
+          fi
+
+          echo "Exporting secrets of Github..."
+          SECRETS=$(echo $OTHER_SECRETS | tr " " "\n")
+          for secret in $SECRETS; do
+              secret_config=(${secret//=/ })
+              secret_name=${secret_config[0]}
+              secret_value=${secret_config[1]}
+              printf -v "$secret_name" "$secret_value"
+              value="${!secret_name}"
+              export $secret_name=$secret_value
+              [[ "$DEBUG" == "true" ]] && echo "Exported - $secret_name: ***${value: -4}"
+          done
+
+          echo "Exporting environment variables..."
+          ENVS=$(echo $OTHER_ENVS | tr " " "\n")
+          for env in $ENVS; do
+              env_config=(${env//=/ })
+              env_name=${env_config[0]}
+              env_value=${env_config[1]}
+              printf -v "$env_name" "$env_value"
+              value="${!env_name}"
+              export $env_name=$env_value
+              [[ "$DEBUG" == "true" ]] && echo "Exported - $env_name: ***${value: -4}"
+          done
+
+          echo "Starting settings and execution of test..."
+          echo "id=$(uuidgen)" >> "$GITHUB_OUTPUT"
+          eval "$COMMAND_PRE_EXECUTE" || exit 1
+          eval "$COMMAND_EXECUTE" || exit 1
+      - name: Prepare files to export
+        if: ${{ always() }}
+        env:
+          FILES: ${{ inputs.files-to-export }}
+        run: |
+          files=$(echo $FILES | tr " " "\n")
+          mkdir temp_dir_files
+          for file in $files; do
+            cp -r $file temp_dir_files
+          done
+      - name: Upload reports of E2E tests
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-e2e-${{ steps.execution.outputs.id }}
+          retention-days: 1
+          path: ${{ inputs.repository }}/temp_dir_files/**
+#      - name: Checkout bancodebogota/bbog-dig-do-action-xray-test-report-pipeline
+#        if: ${{ always() }}
+#        uses: actions/checkout@v3
+#        with:
+#          repository: bancodebogota/bbog-dig-do-action-xray-test-report-pipeline
+#          ref: 'v1.2.0'
+#          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+#          persist-credentials: false
+#          path: ./.github/actions/bbog-dig-do-action-xray-test-report-pipeline
+#           - name: Xray reports
+#        if: ${{ always() }}
+#        uses: ./.github/actions/bbog-dig-do-action-xray-test-report-pipeline
+#        with:
+#          client-id: ${{ secrets.CLIENT_ID_XRAY }}
+#          client-secret: ${{ secrets.CLIENT_SECRET_XRAY }}
+#          path-report-file: ${{ inputs.repository }}/${{ inputs.path-report-file }}
+#          test-plan-key: ${{ inputs.test-plan-key }}
+#          test-exec-key: ${{ inputs.test-exec-key }}
+  security-analysis:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: ZAP baseline scan
+        if: ${{ inputs.target-url-zap }}
+        uses: zaproxy/action-baseline@v0.9.0
+        with:
+          docker_name: 'owasp/zap2docker-stable'
+          target: ${{ inputs.target-url-zap }}
+          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+          allow_issue_writing: false
+          artifact_name: security_reports
+      - name: Restore security report
+        if: ${{ always() }}
+        uses: actions/download-artifact@v3
+        with:
+          name: security_reports
+          path: ${{ inputs.repository }}/security-reports

@@ -1,8 +1,8 @@
-name: automated-testing-integration
+name: test-integration-workflow
 on:
   push:
     branches:
-      -main
+      - main
   workflow_dispatch:
 
 jobs:
@@ -14,10 +14,8 @@ jobs:
       files-to-export: >
         target/site/serenity/serenity-summary.html
       prefix-team: 'automation-test-martianFlow'
-#      use-aws-credentials: false
       debug: false
       environment: 'main'
-#      release-id-steward: ${{ inputs.release_id }}
       path-report-file: 'target/serenity-reports/cucumber_report.json'
 #      test-plan-key: 'EYS-3194'
 #      test-exec-key: 'EYS-4650'
@@ -26,7 +24,5 @@ jobs:
       name-file-report: results.csv
     secrets:
       DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-#      CLIENT_ID_XRAY: ${{ secrets.CLIENT_ID_XRAY }}
-#      CLIENT_SECRET_XRAY: ${{ secrets.CLIENT_SECRET_XRAY }}
 
 

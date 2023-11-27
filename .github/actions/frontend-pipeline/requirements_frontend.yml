@@ -1,4 +1,4 @@
-name: Requirements-testing-project
+name: Requirements-frontend-pipeline
 
 on:
   workflow_call:
