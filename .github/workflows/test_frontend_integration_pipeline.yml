@@ -100,6 +100,12 @@ jobs:
           token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
           persist-credentials: false
           path: ./${{ inputs.repository }}
+
+      - name: Configurar variables de entorno
+        run: |
+            echo "BROWSERSTACK_USER=${BROWSERSTACK_USER}" >> $GITHUB_ENV
+            echo "BROWSERSTACK_KEY=${BROWSERSTACK_KEY}" >> $GITHUB_ENV
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
