@@ -7,7 +7,7 @@ on:
 
 jobs:
   integration-e2e-tests:
-    uses: ./.github/workflows/test_frontend_integration.yml
+    uses: ./.github/actions/frontend-pipeline/test_frontend_integration.yml
     with:
       command-install: 'mvn clean install -DskipTests'
       command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://hub.browserstack.com/wd/hub" -P"sample-test"'
