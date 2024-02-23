@@ -20,7 +20,7 @@ jobs:
 #      test-plan-key: 'EYS-3194'
 #      test-exec-key: 'EYS-4650'
       repository: 'java-screenplay-browserstack-framework'
-      target-url-zap: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
+      target-url-zap: 'https://the-internet.herokuapp.com/'
       name-file-report: results.csv
     secrets:
       DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}

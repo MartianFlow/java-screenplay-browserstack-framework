@@ -7,7 +7,7 @@ bash run-sonar-cloud.sh \
     --access-token=$SONAR_ACCESS_TOKEN \
     --project-name=test \
     --project-key=test \
-    --organization=martianFlow \
+    --organization=martianflowdemo \
     --language=java \
     --coverage-file='' \
     --debug=true

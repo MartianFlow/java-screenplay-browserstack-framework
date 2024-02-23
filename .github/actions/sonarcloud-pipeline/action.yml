@@ -17,7 +17,7 @@ inputs:
   organization:
     description: 'SonarCloud organization'
     required: false
-    default: 'bancodebogota'
+    default: 'martianflowdemo'
   current-branch:
     description: 'Git branch will be analyzed'
     required: false
