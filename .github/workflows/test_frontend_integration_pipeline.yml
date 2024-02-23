@@ -42,7 +42,7 @@ on:
       java-version:
         description: "Version of Java"
         required: false
-        default: "11"
+        default: "17"
         type: string
       prefix-team:
         description: 'Prefix of agile team'
