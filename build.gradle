@@ -1,0 +1,76 @@
+defaultTasks 'clean','test','aggregate'
+
+group 'com.martianflowdemo'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.serenity-bdd:serenity-gradle-plugin:3.9.8"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: "net.serenity-bdd.serenity-gradle-plugin"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+ext {
+    serenityCoreVersion = '4.1.0'
+    junitVersion = '5.10.2'
+    logbackVersion = '1.5.0'
+    lombokVersion = '1.18.22'
+    serenityCucumberVersion = '7.15.0'
+}
+
+dependencies {
+
+    implementation "net.serenity-bdd:serenity-browserstack:${serenityCoreVersion}"
+    implementation ("net.serenity-bdd:serenity-core:${serenityCoreVersion}")
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-ensure:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-cucumber:${serenityCoreVersion}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${serenityCucumberVersion}"
+
+    testImplementation "junit:junit:4.13.1"
+    testImplementation "org.junit.platform:junit-platform-launcher:1.10.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${junitVersion}"
+
+    testImplementation 'org.assertj:assertj-core:3.25.3'
+    implementation 'com.browserstack:browserstack-java-sdk:1.2.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.16.1'
+    implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+    implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
+
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
+serenity {
+    testRoot = "com.martianflowdemo"
+    requirementsBaseDir = "src/test/resources/features"
+}
+
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)

@@ -10,6 +10,8 @@ Este repositorio contiene un marco de trabajo (framework) basado en Java y Scree
 ### Ejecutar Local - Navegador Chrome
 ```
 mvn clean verify -D"webdriver.driver=chrome" -P"sample-local-test"
+
+gradle clean test -D"webdriver.driver=chrome" -P"sample-local-test"
 ```
 
 ### Ejecutar Local - Navegador Firefox
