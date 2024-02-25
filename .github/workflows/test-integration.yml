@@ -13,6 +13,7 @@ jobs:
       command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://hub.browserstack.com/wd/hub" -P"sample-test"'
       files-to-export: >
         target/site/serenity/serenity-summary.html
+        target/logback-reports/logback-execution-report.txt
       prefix-team: 'automation-test-martianFlow'
       debug: false
       environment: 'main'
