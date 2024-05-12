@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
       #Analisis de informacion sensible
       - name: TruffleHog OSS
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.67.5
         with:
           path: ./
           base: ${{ github.head_ref }}
