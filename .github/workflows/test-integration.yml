@@ -18,6 +18,12 @@ jobs:
       debug: false
       environment: 'main'
       path-report-file: 'target/serenity-reports/cucumber_report.json'
+#      test-plan-key: 'EYS-3194'
+#      test-exec-key: 'EYS-4650'
       repository: 'java-screenplay-browserstack-framework'
       target-url-zap: 'https://the-internet.herokuapp.com/'
       name-file-report: results.csv
+    secrets:
+      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+
+
