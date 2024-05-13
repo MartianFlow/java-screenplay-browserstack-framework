@@ -101,14 +101,14 @@ jobs:
           persist-credentials: false
           path: ./${{ inputs.repository }}
 
-#      - name: Configurar variables de entorno
-#        run: |
-#            echo "BROWSERSTACK_USER=${{ secrets.BROWSERSTACK_USER }}" >> $GITHUB_ENV
-#            echo "BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}" >> $GITHUB_ENV
-#      - name: Imprimir variables de entorno (para fines de depuración)
-#        run: |
-#          echo "BROWSERSTACK_USER=${BROWSERSTACK_USER}"
-#          echo "BROWSERSTACK_KEY=${BROWSERSTACK_KEY}"
+      - name: Configurar variables de entorno
+        run: |
+            echo "BROWSERSTACK_USER=${{ secrets.BROWSERSTACK_USER }}" >> $GITHUB_ENV
+            echo "BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}" >> $GITHUB_ENV
+      - name: Imprimir variables de entorno (para fines de depuración)
+        run: |
+          echo "BROWSERSTACK_USER=${BROWSERSTACK_USER}"
+          echo "BROWSERSTACK_KEY=${BROWSERSTACK_KEY}"
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
