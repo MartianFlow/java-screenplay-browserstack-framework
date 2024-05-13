@@ -4,14 +4,13 @@ on:
     branches:
       - main
   workflow_dispatch:
-
+env:
+  DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+  BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+  BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 jobs:
   integration-e2e-tests:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
-    env:
-      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
     with:
       command-install: 'mvn clean install -DskipTests'
       command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://${{ env.BROWSERSTACK_USERNAME }}:${{ env.BROWSERSTACK_ACCESS_KEY }}@hub.browserstack.com/wd/hub" -P"sample-test"'
