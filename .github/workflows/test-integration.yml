@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
     with:
       command-install: 'mvn clean install -DskipTests'
-      command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://${{ secrets.BROWSERSTACK_USER }}:${{ secrets.BROWSERSTACK_KEY }}@hub.browserstack.com/wd/hub" -P"sample-test"'
+      command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://${{ secrets.BROWSERSTACK_USERNAME }}:${{ secrets.BROWSERSTACK_ACCESS_KEY }}@hub.browserstack.com/wd/hub" -P"sample-test"'
       files-to-export: >
         target/site/serenity/serenity-summary.html
         target/logback-reports/logback-execution-report.txt
@@ -18,14 +18,6 @@ jobs:
       debug: false
       environment: 'main'
       path-report-file: 'target/serenity-reports/cucumber_report.json'
-#      test-plan-key: 'EYS-3194'
-#      test-exec-key: 'EYS-4650'
       repository: 'java-screenplay-browserstack-framework'
       target-url-zap: 'https://the-internet.herokuapp.com/'
       name-file-report: results.csv
-    secrets:
-      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-      BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-
-
