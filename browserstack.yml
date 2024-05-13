@@ -3,13 +3,15 @@
 # =============================
 # Add your BrowserStack userName and accessKey here or set BROWSERSTACK_USERNAME and
 # BROWSERSTACK_ACCESS_KEY as env variables
+userName: jardi_6hfcZA
+accessKey: K1h33FqzX1PFDwBaGHps
 
 # ======================
 # BrowserStack Reporting
 # ======================
 # The following capabilities are used to set up reporting on BrowserStack:
 # Set 'projectName' to the name of your project. Example, Marketing Website
-projectName: Tribu Credito Comercial 
+projectName: Tribu Credito Comercial
 # Set `buildName` as the name of the job / testsuite being run
 buildName: EYS_Site_LDS
 # `buildIdentifier` is a unique id to differentiate every execution that gets appended to
@@ -76,7 +78,7 @@ platforms:
   #   osVersion: 15
   #   browserName: ios
   #   deviceOrientation: portrait
-   #TABLET
+  #TABLET
   # - deviceName: iPad Mini 2021
   #   osVersion: 15
   #   browserName: ios
@@ -96,7 +98,7 @@ platforms:
     browserName: Edge
     browserVersion: latest
     resolution: 1920x1080
-  
+
 
 # =======================
 # Parallels per Platform
@@ -119,13 +121,13 @@ browserstackLocal: true # <boolean> (Default false)
 
 # Options to be passed to BrowserStack local in-case of advanced configurations
 browserStackLocalOptions:
-  # localIdentifier: # <string> (Default: null) Needed if you need to run multiple instances of local.
-  #forceLocal: false  # <boolean> (Default: false) Set to true if you need to resolve all your traffic via BrowserStack Local tunnel.
-  # Entire list of arguments available here -> https://www.browserstack.com/docs/automate/selenium/manage-incoming-connections
+# localIdentifier: # <string> (Default: null) Needed if you need to run multiple instances of local.
+#forceLocal: false  # <boolean> (Default: false) Set to true if you need to resolve all your traffic via BrowserStack Local tunnel.
+# Entire list of arguments available here -> https://www.browserstack.com/docs/automate/selenium/manage-incoming-connections
 
 
 browserstack.geoLocation: CO
-  
+
 # ===================
 # Debugging features
 # ===================
