@@ -10,7 +10,10 @@ jobs:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
     with:
       command-install: 'mvn clean install -DskipTests'
-      command-execute: 'mvn clean verify -D"webdriver.driver=remote" -D"webdriver.remote.url=https://hub.browserstack.com/wd/hub" -P"sample-test"'
+      command-execute: 'mvn clean verify 
+      -D"webdriver.driver=remote"  
+      -D"webdriver.remote.url=https://jardi_6hfcZA:K1h33FqzX1PFDwBaGHps@hub.browserstack.com/wd/hub" 
+      -P"sample-test"'
       files-to-export: >
         target/site/serenity/serenity-summary.html
         target/logback-reports/logback-execution-report.txt
