@@ -26,11 +26,11 @@ jobs:
     if: ${{ always() }}
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
     with:
-      command-install:  |
+      command-install:  "
         sed -i 's/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/' serenity.properties &&
         sed -i 's/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/' serenity.properties &&
         sed -i 's/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/' browserstack.yml &&
-        sed -i 's/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/' browserstack.yml
+        sed -i 's/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/' browserstack.yml"
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
                         -P"sample-test" 
