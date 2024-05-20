@@ -16,10 +16,10 @@ jobs:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         run: |
-          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" serenity.properties
-          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" serenity.properties
-          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" browserstack.yml
-          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" browserstack.yml
+          sed -i "s/@browserstack.user@/BROWSERSTACK_USERNAME/" serenity.properties
+          sed -i "s/@browserstack.key@/BROWSERSTACK_ACCESS_KEY/" serenity.properties
+          sed -i "s/@browserstack.user@/BROWSERSTACK_USERNAME/" browserstack.yml
+          sed -i "s/@browserstack.key@/BROWSERSTACK_ACCESS_KEY/" browserstack.yml
 
   integration-e2e-tests:
     needs: update-browserstack-credentials
