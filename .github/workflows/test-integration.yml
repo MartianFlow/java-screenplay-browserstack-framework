@@ -14,12 +14,10 @@ jobs:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         run: |
-          echo "browserstack.user=${BROWSERSTACK_USERNAME}" >> serenity.properties
-          echo "browserstack.key=${BROWSERSTACK_ACCESS_KEY}" >> serenity.properties
-          echo "userName=${BROWSERSTACK_USERNAME}" >> browserstack.yml
-          echo "accessKey=${BROWSERSTACK_ACCESS_KEY}" >> browserstack.yml
-          cat serenity.properties
-          cat browserstack.yml
+          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" serenity.properties
+          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" serenity.properties
+          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" browserstack.yml
+          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" browserstack.yml
 
   integration-e2e-tests:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
