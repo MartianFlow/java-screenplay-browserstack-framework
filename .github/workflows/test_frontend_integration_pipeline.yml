@@ -115,6 +115,14 @@ jobs:
           java-version: ${{ inputs.java-version }}
           architecture: x64
           distribution: "adopt"
+      - name: Install dependencies
+        if: ${{ steps.cache-dependencies.outputs.cache-hit != 'true' && inputs.command-install }}
+        env:
+          COMMAND_INSTALL: ${{ inputs.command-install }}
+          ARTIFACTORY_READER_USER: ${{ secrets.ARTIFACTORY_READER_USER }}
+          ARTIFACTORY_READER_API_KEY: ${{ secrets.ARTIFACTORY_READER_API_KEY }}
+        run: |
+          eval "$COMMAND_INSTALL" || exit 1
       - name: Run E2E testing
         id: execution
         if: ${{ always() }}
