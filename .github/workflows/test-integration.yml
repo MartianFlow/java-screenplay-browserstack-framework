@@ -26,7 +26,7 @@ jobs:
     if: ${{ always() }}
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
     with:
-      command-install:  eval "sed -i 's/@browserstack.user@/BROWSERSTACK_USERNAME/' serenity.properties
+      command-install:  "sed -i 's/@browserstack.user@/BROWSERSTACK_USERNAME/' serenity.properties
                               sed -i 's/@browserstack.key@/BROWSERSTACK_ACCESS_KEY/' serenity.properties
                               sed -i 's/@browserstack.user@/BROWSERSTACK_USERNAME/' browserstack.yml
                               sed -i 's/@browserstack.key@/BROWSERSTACK_ACCESS_KEY/' browserstack.yml"
