@@ -1,4 +1,5 @@
 name: test-integration-workflow
+
 on:
   push:
     branches:
@@ -7,24 +8,34 @@ on:
 
 jobs:
   integration-e2e-tests:
-    uses: ./.github/workflows/test_frontend_integration_pipeline.yml
-    with:
-      command-install: 'mvn clean install -DskipTests'
-      command-execute: 'mvn clean verify 
-                        -D"environment=remote" 
-                        -P"sample-test" 
-                        '
-      files-to-export: >
-        target/site/serenity/serenity-summary.html
-        target/logback-reports/logback-execution-report.txt
-      prefix-team: 'automation-test-martianFlow'
-      debug: false
-      environment: 'main'
-      path-report-file: 'target/serenity-reports/cucumber_report.json'
-      repository: 'java-screenplay-browserstack-framework'
-      target-url-zap: 'https://the-internet.herokuapp.com/'
-      name-file-report: results.csv
-    secrets:
-      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update serenity.properties with BrowserStack credentials
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: |
+          echo "browserstack.user=${BROWSERSTACK_USERNAME}" >> serenity.properties
+          echo "browserstack.key=${BROWSERSTACK_ACCESS_KEY}" >> serenity.properties
+          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" browserstack.yml
+          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" browserstack.yml
+          cat serenity.properties
+
+      - name: Run the composite action
+        uses: ./.github/workflows/test_frontend_integration_pipeline.yml
+        with:
+          command-install: 'mvn clean install -DskipTests'
+          command-execute: 'mvn clean verify -D"environment=remote" -P"sample-test"'
+          files-to-export: >
+            target/site/serenity/serenity-summary.html
+            target/logback-reports/logback-execution-report.txt
+          prefix-team: 'automation-test-martianFlow'
+          debug: false
+          environment: 'main'
+          path-report-file: 'target/serenity-reports/cucumber_report.json'
+          repository: 'java-screenplay-browserstack-framework'
+          target-url-zap: 'https://the-internet.herokuapp.com/'
+          name-file-report: results.csv
+        env:
+          DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
