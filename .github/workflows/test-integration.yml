@@ -11,9 +11,9 @@ jobs:
     with:
       command-install: 'mvn clean install -DskipTests'
       command-execute: 'mvn clean verify 
-      -D"webdriver.driver=remote"  
-      -D"webdriver.remote.url=https://jardi_6hfcZA:K1h33FqzX1PFDwBaGHps@hub.browserstack.com/wd/hub" 
-      -P"sample-test"'
+                        -D"environment=remote" 
+                        -P"sample-test" 
+                        '
       files-to-export: >
         target/site/serenity/serenity-summary.html
         target/logback-reports/logback-execution-report.txt
