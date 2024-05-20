@@ -11,15 +11,15 @@ accessKey: K1h33FqzX1PFDwBaGHps
 # ======================
 # The following capabilities are used to set up reporting on BrowserStack:
 # Set 'projectName' to the name of your project. Example, Marketing Website
-projectName: Tribu Credito Comercial
+projectName: Squad EYS
 # Set `buildName` as the name of the job / testsuite being run
-buildName: EYS_Site_LDS
+buildName: EYS_ValDispositivos
 # `buildIdentifier` is a unique id to differentiate every execution that gets appended to
 # buildName. Choose your buildIdentifier format from the available expressions:
 # ${BUILD_NUMBER} (Default): Generates an incremental counter with every execution
 # ${DATE_TIME}: Generates a Timestamp with every execution. Eg. 05-Nov-19:30
 # Read more about buildIdentifiers here -> https://www.browserstack.com/docs/automate/selenium/organize-tests
-buildIdentifier: 'ValDispositivos' # Supports strings along with either/both ${expression}
+buildIdentifier: '' # Supports strings along with either/both ${expression}
 buildTag: 'EYS'
 # Set `framework` of your test suite. Example, `testng`, `cucumber`, `cucumber-testng`
 # This property is needed to send test context to BrowserStack (test name, status)
@@ -43,7 +43,7 @@ platforms:
     osVersion: Ventura
     browserName: Chrome
     browserVersion: latest
-  
+
   # - os: OS X
   #   osVersion: Ventura
   #   browserName: Safari
@@ -63,11 +63,11 @@ platforms:
   #   osVersion: 11
   #   browserName: Chrome
   #   browserVersion: latest
-  
+
   # - os: Windows
   #   osVersion: 11
   #   browserName: Edge
-  #   browserVersion: latest   
+  #   browserVersion: latest
 
 
   #MOBILE
