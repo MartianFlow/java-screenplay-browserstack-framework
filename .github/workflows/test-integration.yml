@@ -8,7 +8,21 @@ on:
 jobs:
   update-browserstack-credentials:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.repository }}
+    environment: ${{ inputs.environment }}
+    outputs:
+      id: ${{ steps.execution.outputs.id }}
     steps:
+      - name: Checkout automation project
+        uses: actions/checkout@v3
+        with:
+          repository: MartianFlow/${{ inputs.repository }}
+          token: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+          persist-credentials: false
+          path: ./${{ inputs.repository }}
       - name: Update serenity.properties with BrowserStack credentials
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
