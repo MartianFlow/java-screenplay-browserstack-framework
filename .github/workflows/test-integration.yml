@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Update serenity.properties with BrowserStack credentials
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
@@ -18,9 +19,11 @@ jobs:
         run: |
           echo "browserstack.user=${BROWSERSTACK_USERNAME}" >> serenity.properties
           echo "browserstack.key=${BROWSERSTACK_ACCESS_KEY}" >> serenity.properties
-          sed -i "s/@browserstack.user@/${{ secrets.BROWSERSTACK_USERNAME }}/" browserstack.yml
-          sed -i "s/@browserstack.key@/${{ secrets.BROWSERSTACK_ACCESS_KEY }}/" browserstack.yml
+          echo "userName=${BROWSERSTACK_USERNAME}" >> browserstack.yml
+          echo "accessKey=${BROWSERSTACK_ACCESS_KEY}" >> browserstack.yml
           cat serenity.properties
+          cat browserstack.yml
+          
 
       - name: Run the composite action
         uses: ./.github/workflows/test_frontend_integration_pipeline.yml
