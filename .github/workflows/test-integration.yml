@@ -17,10 +17,10 @@ jobs:
         bash -c "
         echo 'BROWSERSTACK_USERNAME='${BROWSERSTACK_USERNAME}
         echo 'BROWSERSTACK_ACCESS_KEY='${BROWSERSTACK_ACCESS_KEY}
-        sed -i 's/@buser@/'${{ secrets.BROWSERSTACK_USERNAME }}'/' serenity.properties &&
-        sed -i 's/@bkey@/'${{ secrets.BROWSERSTACK_ACCESS_KEY }}'/' serenity.properties &&
-        sed -i 's/@browserstack.user@/'${{ secrets.BROWSERSTACK_USERNAME }}'/' browserstack.yml &&
-        sed -i 's/@browserstack.key@/'${{ secrets.BROWSERSTACK_ACCESS_KEY }}'/' browserstack.yml
+        sed -i 's/@buser@/'$BROWSERSTACK_USERNAME'/' serenity.properties &&
+        sed -i 's/@bkey@/'$BROWSERSTACK_ACCESS_KEY'/' serenity.properties &&
+        sed -i 's/@browserstack.user@/'$BROWSERSTACK_USERNAME'/' browserstack.yml &&
+        sed -i 's/@browserstack.key@/'$BROWSERSTACK_ACCESS_KEY'/' browserstack.yml
         "
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
