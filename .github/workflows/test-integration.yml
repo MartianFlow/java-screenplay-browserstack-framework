@@ -5,19 +5,21 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-  BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-
 jobs:
   integration-e2e-tests:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
+    secrets:
+      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
     with:
       command-install:  |
-        sed -i 's/@browserstack.user@/'"jardi_6hfcZA"'/' serenity.properties &&
-        sed -i 's/@browserstack.key@/'"K1h33FqzX1PFDwBaGHps"'/' serenity.properties &&
-        sed -i 's/@browserstack.user@/'"jardi_6hfcZA"'/' browserstack.yml &&
-        sed -i 's/@browserstack.key@/'"K1h33FqzX1PFDwBaGHps"'/' browserstack.yml
+        BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        sed -i 's/@browserstack.user@/'"$BROWSERSTACK_USERNAME"'/g' serenity.properties &&
+        sed -i 's/@browserstack.key@/'"$BROWSERSTACK_ACCESS_KEY"'/g' serenity.properties &&
+        sed -i 's/@browserstack.user@/'"$BROWSERSTACK_USERNAME"'/g' browserstack.yml &&
+        sed -i 's/@browserstack.key@/'"$BROWSERSTACK_ACCESS_KEY"'/g' browserstack.yml
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
                         -P"sample-test" 
@@ -32,7 +34,3 @@ jobs:
       repository: 'java-screenplay-browserstack-framework'
       target-url-zap: 'https://the-internet.herokuapp.com/'
       name-file-report: results.csv
-    secrets:
-      DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
