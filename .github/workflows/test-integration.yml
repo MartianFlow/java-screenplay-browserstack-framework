@@ -4,9 +4,17 @@ on:
     branches:
       - main
   workflow_dispatch:
-env:
-  BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-  BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+    inputs:
+      cucumber-tag:
+        description: 'Tag de cucumber a ejecutar'
+        required: true
+        default: '@RegRolRadicador' # Tag predeterminado
+      browserstack-username:
+        description: 'BrowserStack Username'
+        required: true
+      browserstack-access-key:
+        description: 'BrowserStack Access Key'
+        required: true
 
 jobs:
   integration-e2e-tests:
@@ -16,18 +24,15 @@ jobs:
 
     with:
       command-install:  |
-        bash -c "
-        echo 'BROWSERSTACK_USERNAME='$BROWSERSTACK_USERNAME
-        echo 'BROWSERSTACK_ACCESS_KEY='$BROWSERSTACK_ACCESS_KEY
-        sed -i 's/@buser@/'$BROWSERSTACK_USERNAME'/' serenity.properties &&
-        sed -i 's/@bkey@/'$BROWSERSTACK_ACCESS_KEY'/' serenity.properties &&
-        sed -i 's/@browserstack.user@/'$BROWSERSTACK_USERNAME'/' browserstack.yml &&
-        sed -i 's/@browserstack.key@/'$BROWSERSTACK_ACCESS_KEY'/' browserstack.yml
-        "
+        sed -i 's/@buser@/'${{ github.event.inputs.browserstack-username }}'/' serenity.properties &&
+        sed -i 's/@bkey@/'${{ github.event.inputs.browserstack-access-key }}'/' serenity.properties &&
+        sed -i 's/@browserstack.user@/'${{ github.event.inputs.browserstack-username }}'/' browserstack.yml &&
+        sed -i 's/@browserstack.key@/'${{ github.event.inputs.browserstack-access-key }}'/' browserstack.yml
+
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
                         -P"sample-test" 
-                        '
+                        -D"cucumber.filter.tags=${{ github.event.inputs.cucumber-tag }}"'
       files-to-export: >
         target/site/serenity/serenity-summary.html
         target/logback-reports/logback-execution-report.txt
