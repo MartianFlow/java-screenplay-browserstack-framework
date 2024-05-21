@@ -14,10 +14,10 @@ jobs:
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
     with:
       command-install:  |
-        sed -i "s/@browserstack.user@/${BROWSERSTACK_USERNAME}/g" serenity.properties &&
-        sed -i "s/@browserstack.key@/${BROWSERSTACK_ACCESS_KEY}/g" serenity.properties &&
-        sed -i "s/@browserstack.user@/${BROWSERSTACK_USERNAME}/g" browserstack.yml &&
-        sed -i "s/@browserstack.key@/${BROWSERSTACK_ACCESS_KEY}/g" browserstack.yml
+        sed -i 's/@browserstack.user@/${BROWSERSTACK_USERNAME}/g' serenity.properties &&
+        sed -i 's/@browserstack.key@/${BROWSERSTACK_ACCESS_KEY}/g' serenity.properties &&
+        sed -i 's/@browserstack.user@/${BROWSERSTACK_USERNAME}/g' browserstack.yml &&
+        sed -i 's/@browserstack.key@/${BROWSERSTACK_ACCESS_KEY}/g' browserstack.yml
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
                         -P"sample-test" 
