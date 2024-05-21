@@ -4,49 +4,26 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+  BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
 jobs:
-  update-files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Update files with BrowserStack credentials
-        env:
-          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-        run: |
-          echo 'Updating BrowserStack credentials in serenity.properties and browserstack.yml'
-          sed -i 's/@buser@/'"$BROWSERSTACK_USERNAME"'/' serenity.properties
-          sed -i 's/@bkey@/'"$BROWSERSTACK_ACCESS_KEY"'/' serenity.properties
-          sed -i 's/@browserstack.user@/'"$BROWSERSTACK_USERNAME"'/' browserstack.yml
-          sed -i 's/@browserstack.key@/'"$BROWSERSTACK_ACCESS_KEY"'/' browserstack.yml
-
-      - name: Upload updated files
-        uses: actions/upload-artifact@v3
-        with:
-          name: updated-config-files
-          path: |
-            serenity.properties
-            browserstack.yml
-
   integration-e2e-tests:
     uses: ./.github/workflows/test_frontend_integration_pipeline.yml
     secrets:
       DIG_READER_GITHUB_ACCESS_TOKEN: ${{ secrets.DIG_READER_GITHUB_ACCESS_TOKEN }}
-      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+
     with:
-#      command-install:  |
-#        bash -c "
-#        echo 'BROWSERSTACK_USERNAME='${BROWSERSTACK_USERNAME}
-#        echo 'BROWSERSTACK_ACCESS_KEY='${BROWSERSTACK_ACCESS_KEY}
-#        sed -i 's/@buser@/'$BROWSERSTACK_USERNAME'/' serenity.properties &&
-#        sed -i 's/@bkey@/'$BROWSERSTACK_ACCESS_KEY'/' serenity.properties &&
-#        sed -i 's/@browserstack.user@/'$BROWSERSTACK_USERNAME'/' browserstack.yml &&
-#        sed -i 's/@browserstack.key@/'$BROWSERSTACK_ACCESS_KEY'/' browserstack.yml
-#        "
+      command-install:  |
+        bash -c "
+        echo 'BROWSERSTACK_USERNAME='$BROWSERSTACK_USERNAME
+        echo 'BROWSERSTACK_ACCESS_KEY='$BROWSERSTACK_ACCESS_KEY
+        sed -i 's/@buser@/'$BROWSERSTACK_USERNAME'/' serenity.properties &&
+        sed -i 's/@bkey@/'$BROWSERSTACK_ACCESS_KEY'/' serenity.properties &&
+        sed -i 's/@browserstack.user@/'$BROWSERSTACK_USERNAME'/' browserstack.yml &&
+        sed -i 's/@browserstack.key@/'$BROWSERSTACK_ACCESS_KEY'/' browserstack.yml
+        "
       command-execute: 'mvn clean verify 
                         -D"environment=remote" 
                         -P"sample-test" 
