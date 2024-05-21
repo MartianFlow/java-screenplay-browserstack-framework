@@ -17,8 +17,8 @@ jobs:
         bash -c "
         echo 'BROWSERSTACK_USERNAME='${BROWSERSTACK_USERNAME}
         echo 'BROWSERSTACK_ACCESS_KEY='${BROWSERSTACK_ACCESS_KEY}
-        sed -i 's/@browserstack.user@/'${BROWSERSTACK_USERNAME}'/' serenity.properties &&
-        sed -i 's/@browserstack.key@/'${BROWSERSTACK_ACCESS_KEY}'/' serenity.properties &&
+        sed -i 's/@browser.user@/'${BROWSERSTACK_USERNAME}'/' serenity.properties &&
+        sed -i 's/@browsers.key@/'${BROWSERSTACK_ACCESS_KEY}'/' serenity.properties &&
         sed -i 's/@browserstack.user@/'${BROWSERSTACK_USERNAME}'/' browserstack.yml &&
         sed -i 's/@browserstack.key@/'${BROWSERSTACK_ACCESS_KEY}'/' browserstack.yml
         "
